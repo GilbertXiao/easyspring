@@ -1,9 +1,12 @@
 package com.gilxyj.easyspring.beans.factory.support;
 
 import com.gilxyj.easyspring.beans.BeanDefinition;
+
 import com.gilxyj.easyspring.beans.factory.BeanCreationException;
 import com.gilxyj.easyspring.beans.factory.BeanDefinitionStoreException;
 import com.gilxyj.easyspring.beans.factory.BeanFactory;
+import com.gilxyj.easyspring.beans.factory.config.ConfigurableBeanFactory;
+import com.gilxyj.easyspring.beans.support.BeanDefinitionRegistry;
 import com.gilxyj.easyspring.beans.support.GenericBeanDefinition;
 import com.gilxyj.easyspring.util.ClassUtils;
 import org.dom4j.Document;
@@ -31,44 +34,12 @@ import java.util.concurrent.ConcurrentMap;
  * @Gitee https://gitee.com/gilbertxiao
  * @create: 2020-08-22 23:38
  **/
-public class DefaultBeanFactory implements BeanFactory {
+public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
-    public static final String ID_ATTRIBUTE = "id";
-    public static final String CLASS_ATTRIBUTE = "class";
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap();
 
-    public DefaultBeanFactory(String configFile) {
-        loadBeanDefinition(configFile);
-    }
-
-    private void loadBeanDefinition(String configFile) {
-
-        ClassLoader cl = ClassUtils.getDefaultClassLoader();
-        SAXReader saxReader = new SAXReader();
-        Document doc = null;
-        try(InputStream is = cl.getResourceAsStream(configFile)) {
-            doc = saxReader.read(is);
-        } catch (DocumentException | IOException e) {
-            throw new BeanDefinitionStoreException("parsing XML doc failed", e);
-        }
-        Element rootElement = doc.getRootElement();
-        Iterator<Element> iterator = rootElement.elementIterator();
-        while (iterator.hasNext()) {
-            Element element = iterator.next();
-            String id = element.attributeValue(ID_ATTRIBUTE);
-            String beanClassName = element.attributeValue(CLASS_ATTRIBUTE);
-
-            BeanDefinition bd = new GenericBeanDefinition(id,beanClassName);
-            this.beanDefinitionMap.put(id, bd);
-
-
-        }
-
-
-
-    }
-
+    private ClassLoader beanClassLoader;
 
     @Override
     public BeanDefinition getBeanDefinition(String id) {
@@ -76,19 +47,49 @@ public class DefaultBeanFactory implements BeanFactory {
     }
 
     @Override
-    public Object getBean(String beanId) {
-        BeanDefinition beanDefinition = this.getBeanDefinition(beanId);
+    public void registerBeanDefinition(String beanID, BeanDefinition bd) {
+        this.beanDefinitionMap.put(beanID, bd);
+    }
+
+    @Override
+    public Object getBean(String beanID) {
+        BeanDefinition beanDefinition = this.getBeanDefinition(beanID);
         if (beanDefinition == null) {
             throw new BeanCreationException("Bean Definition does not exist");
         }
-        ClassLoader cl = ClassUtils.getDefaultClassLoader();
+        if (beanDefinition.isSingleton()) {
+            Object bean = this.getSingleton(beanID);
+            if (bean == null) {
+                bean = createBean(beanDefinition);
+                this.registerSingleton(beanID,bean);
+            }
+            return bean;
+        }
+        return createBean(beanDefinition);
+
+    }
+
+    private Object createBean(BeanDefinition beanDefinition) {
+        ClassLoader cl = this.getBeanClassLoader();
         String beanClassName = beanDefinition.getBeanClassName();
         try {
             Class<?> aClass = cl.loadClass(beanClassName);
-            return aClass.newInstance();
+            return aClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new BeanCreationException("create bean for "+ beanClassName +" failed",e);
+            throw new BeanCreationException("create bean for " + beanClassName + " failed", e);
         }
+    }
 
+    @Override
+    public void setBeanCLassLoader(ClassLoader classLoader) {
+        this.beanClassLoader = classLoader;
+    }
+
+    @Override
+    public ClassLoader getBeanClassLoader() {
+        if (this.beanClassLoader != null) {
+            return this.beanClassLoader;
+        }
+        return ClassUtils.getDefaultClassLoader();
     }
 }

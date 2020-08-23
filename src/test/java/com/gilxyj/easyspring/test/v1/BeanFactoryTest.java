@@ -7,11 +7,13 @@ import com.gilxyj.easyspring.beans.factory.BeanCreationException;
 import com.gilxyj.easyspring.beans.factory.BeanDefinitionStoreException;
 import com.gilxyj.easyspring.beans.factory.BeanFactory;
 import com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory;
+import com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader;
+import com.gilxyj.easyspring.core.io.ClassPathResource;
 import com.gilxyj.easyspring.service.v1.PetStoreService;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @program: easyspring
@@ -27,25 +29,63 @@ import static org.junit.Assert.assertNotNull;
  **/
 public class BeanFactoryTest {
 
+    private DefaultBeanFactory beanFactory;
+    private XMLBeanDefinitionReader reader ;
+
+    @Before
+    public void setUp(){
+         beanFactory = new DefaultBeanFactory();
+         reader = new XMLBeanDefinitionReader(beanFactory);
+    }
+
     @Test
     public void testGetBean(){
-        BeanFactory beanFactory = new DefaultBeanFactory("petstore-v1.xml");
+
+        reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
         BeanDefinition beanDefinition= beanFactory.getBeanDefinition("petStore");
+
+        assertTrue(beanDefinition.isSingleton());
+        assertFalse(beanDefinition.isPrototype());
+
+        assertEquals(BeanDefinition.SCOPE_DEFAULT, beanDefinition.getScope());
 
         assertEquals("com.gilxyj.easyspring.service.v1.PetStoreService", beanDefinition.getBeanClassName());
         PetStoreService petStoreService = (PetStoreService) beanFactory.getBean("petStore");
 
         assertNotNull(petStoreService);
+
+        PetStoreService petStoreService1 = (PetStoreService) beanFactory.getBean("petStore");
+        assertTrue(petStoreService.equals(petStoreService1));
     }
 
     @Test(expected = BeanCreationException.class)
     public void testInvalidBean(){
-        BeanFactory beanFactory = new DefaultBeanFactory("petstore-v1.xml");
+        reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
         Object invalidBean = beanFactory.getBean("invalidBean");
     }
 
     @Test(expected = BeanDefinitionStoreException.class)
     public void testInvalidXML(){
-        BeanFactory beanFactory = new DefaultBeanFactory("xxx.xml");
+        reader.loadBeanDefinition(new ClassPathResource("xxx.xml"));
+    }
+
+    @Test
+    public void testPrototypeBean(){
+
+        reader.loadBeanDefinition(new ClassPathResource("petstore-v2.xml"));
+        BeanDefinition beanDefinition= beanFactory.getBeanDefinition("petStore");
+
+        assertFalse(beanDefinition.isSingleton());
+        assertTrue(beanDefinition.isPrototype());
+
+        assertNotEquals(BeanDefinition.SCOPE_DEFAULT, beanDefinition.getScope());
+
+        assertEquals("com.gilxyj.easyspring.service.v1.PetStoreService", beanDefinition.getBeanClassName());
+        PetStoreService petStoreService = (PetStoreService) beanFactory.getBean("petStore");
+
+        assertNotNull(petStoreService);
+
+        PetStoreService petStoreService1 = (PetStoreService) beanFactory.getBean("petStore");
+        assertFalse(petStoreService.equals(petStoreService1));
     }
 }

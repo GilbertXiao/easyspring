@@ -1,6 +1,4 @@
-package com.gilxyj.easyspring.beans.factory;
-
-import com.gilxyj.easyspring.beans.BeanDefinition;
+package com.gilxyj.easyspring.util;
 
 /**
  * @program: easyspring
@@ -12,8 +10,13 @@ import com.gilxyj.easyspring.beans.BeanDefinition;
  * @微信 gilbertxy
  * @GitHub https://github.com/GilbertXiao
  * @Gitee https://gitee.com/gilbertxiao
- * @create: 2020-08-22 23:42
+ * @create: 2020-08-23 19:26
  **/
-public interface BeanFactory {
-    Object getBean(String beanID);
+public abstract class Assert {
+    public static void notNull(Object object, String msg) {
+        if (object == null) {
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
 }

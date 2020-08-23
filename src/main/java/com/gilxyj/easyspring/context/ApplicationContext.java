@@ -1,6 +1,7 @@
-package com.gilxyj.easyspring.beans.factory;
+package com.gilxyj.easyspring.context;
 
-import com.gilxyj.easyspring.beans.BeanDefinition;
+import com.gilxyj.easyspring.beans.factory.BeanFactory;
+import com.gilxyj.easyspring.beans.factory.config.ConfigurableBeanFactory;
 
 /**
  * @program: easyspring
@@ -12,8 +13,8 @@ import com.gilxyj.easyspring.beans.BeanDefinition;
  * @微信 gilbertxy
  * @GitHub https://github.com/GilbertXiao
  * @Gitee https://gitee.com/gilbertxiao
- * @create: 2020-08-22 23:42
+ * @create: 2020-08-23 18:27
  **/
-public interface BeanFactory {
-    Object getBean(String beanID);
+public interface ApplicationContext extends ConfigurableBeanFactory {
+
 }
