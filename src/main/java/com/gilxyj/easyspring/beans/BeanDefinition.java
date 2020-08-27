@@ -1,5 +1,7 @@
 package com.gilxyj.easyspring.beans;
 
+import java.util.List;
+
 /**
  * @program: easyspring
  * @description:
@@ -27,5 +29,7 @@ public interface BeanDefinition {
     String getScope();
 
     void setScope(String scope);
+
+    List<PropertyValue> getPropertyValues();
 
 }

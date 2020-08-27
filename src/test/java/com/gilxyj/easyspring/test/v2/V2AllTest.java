@@ -1,4 +1,5 @@
-package com.gilxyj.easyspring.test.v1;
+package com.gilxyj.easyspring.test.v2;
+
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -18,7 +19,7 @@ import org.junit.runners.Suite.SuiteClasses;
  **/
 
 @RunWith(Suite.class)
-@SuiteClasses({ApplicationContextTestV1.class, BeanFactoryTest.class,ResourceTest.class})
-public class V1AllTest {
+@SuiteClasses({BeanDefinitionTestV2.class,BeanDefinitionValueResolverTest.class , CustomBooleanEditTest.class,CustomNumberEditTest.class,ApplicationContextTestV2.class})
+public class V2AllTest {
 
 }

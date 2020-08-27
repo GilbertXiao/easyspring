@@ -21,14 +21,14 @@ import java.util.concurrent.ConcurrentMap;
  **/
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
-    public final static Map<String, Object>singletonObjects =new ConcurrentHashMap<>();
+    public final static Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
 
     @Override
     public void registerSingleton(String beanName, Object object) {
-        Assert.notNull(beanName,"'beanName' must not be null");
+        Assert.notNull(beanName, "'beanName' must not be null");
         Object oldObject = singletonObjects.get(beanName);
         if (oldObject != null) {
-            throw new IllegalStateException("Could not register object [" + object +"] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
+            throw new IllegalStateException("Could not register object [" + object + "] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
         }
         if (singletonObjects.get(beanName) == null) {
             synchronized (DefaultSingletonBeanRegistry.class) {

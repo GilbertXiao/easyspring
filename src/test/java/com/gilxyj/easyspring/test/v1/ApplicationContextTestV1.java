@@ -19,7 +19,7 @@ import org.junit.Test;
  * @Gitee https://gitee.com/gilbertxiao
  * @create: 2020-08-23 18:15
  **/
-public class ApplicationContextTest {
+public class ApplicationContextTestV1 {
 
     @Test
     public void testGetBean(){
@@ -30,7 +30,7 @@ public class ApplicationContextTest {
 
     @Test
     public void testGetBeanFromFileSystemContext(){
-        ApplicationContext ctx =new FileSystemXMLApplicationContext("E:\\Item\\easyspring\\src\\test\\resources\\petstore-v1.xml");
+        ApplicationContext ctx =new FileSystemXMLApplicationContext("src\\test\\resources\\petstore-v1.xml");
         PetStoreService petStore = (PetStoreService)ctx.getBean("petStore");
         Assert.assertNotNull(petStore);
     }

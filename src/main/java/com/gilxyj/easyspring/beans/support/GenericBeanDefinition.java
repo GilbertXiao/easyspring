@@ -1,6 +1,10 @@
 package com.gilxyj.easyspring.beans.support;
 
 import com.gilxyj.easyspring.beans.BeanDefinition;
+import com.gilxyj.easyspring.beans.PropertyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: easyspring
@@ -22,6 +26,8 @@ public class GenericBeanDefinition implements BeanDefinition {
     private boolean singleton = true;
     private boolean prototype = false;
     private String scope = SCOPE_DEFAULT;
+
+    List<PropertyValue> propertyValues = new ArrayList<>();
 
     public GenericBeanDefinition(String id, String beanClassName) {
         this.id = id;
@@ -53,6 +59,11 @@ public class GenericBeanDefinition implements BeanDefinition {
         this.scope = scope;
         this.singleton = SCOPE_SINGLETON.equals(scope) || SCOPE_DEFAULT.equals(scope);
         this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
+
+    @Override
+    public List<PropertyValue> getPropertyValues() {
+        return this.propertyValues;
     }
 
     public void setSingleton(boolean singleton) {

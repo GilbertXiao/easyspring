@@ -4,13 +4,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="petStore"
-        class="com.gilxyj.easyspring.service.v1.PetStoreService" scope="prototype">
+  <bean id="petStoreV2"
+        class="com.gilxyj.easyspring.service.v2.PetStoreServiceV2">
+    <property name="accountDao" ref="accountDao"/>
+    <property name="itemDao" ref="itemDao"/>
+    <property name="age" value="1"/>
+    <property name="version" value="1"/>
   </bean>
 
 
+  <bean id="accountDao" class="com.gilxyj.easyspring.dao.v2.AccountDao">
+  </bean>
 
-
+  <bean id="itemDao" class="com.gilxyj.easyspring.dao.v2.ItemDao"></bean>
 
 </beans>
 

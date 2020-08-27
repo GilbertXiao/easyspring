@@ -72,13 +72,13 @@ public class BeanFactoryTest {
     @Test
     public void testPrototypeBean(){
 
-        reader.loadBeanDefinition(new ClassPathResource("petstore-v2.xml"));
+        reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
         BeanDefinition beanDefinition= beanFactory.getBeanDefinition("petStore");
 
-        assertFalse(beanDefinition.isSingleton());
-        assertTrue(beanDefinition.isPrototype());
+        assertTrue(beanDefinition.isSingleton());
+        assertFalse(beanDefinition.isPrototype());
 
-        assertNotEquals(BeanDefinition.SCOPE_DEFAULT, beanDefinition.getScope());
+        assertEquals(BeanDefinition.SCOPE_DEFAULT, beanDefinition.getScope());
 
         assertEquals("com.gilxyj.easyspring.service.v1.PetStoreService", beanDefinition.getBeanClassName());
         PetStoreService petStoreService = (PetStoreService) beanFactory.getBean("petStore");
@@ -86,6 +86,6 @@ public class BeanFactoryTest {
         assertNotNull(petStoreService);
 
         PetStoreService petStoreService1 = (PetStoreService) beanFactory.getBean("petStore");
-        assertFalse(petStoreService.equals(petStoreService1));
+        assertTrue(petStoreService.equals(petStoreService1));
     }
 }

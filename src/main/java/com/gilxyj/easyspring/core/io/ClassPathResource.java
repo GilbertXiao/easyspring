@@ -21,7 +21,7 @@ import java.io.InputStream;
  **/
 public class ClassPathResource implements Resource {
 
-    private String path;
+    private final String path;
 
     private ClassLoader classLoader;
 

@@ -38,7 +38,7 @@ public class ResourceTest {
 
     @Test
     public void testFileSystemResource(){
-        Resource r = new FileSystemResource("E:\\Item\\easyspring\\src\\test\\resources\\petstore-v1.xml");
+        Resource r = new FileSystemResource("src\\test\\resources\\petstore-v1.xml");
         try (InputStream is = r.getInputStream()) {
             // 注意：这个测试其实并不充分！！
             Assert.assertNotNull(is);
