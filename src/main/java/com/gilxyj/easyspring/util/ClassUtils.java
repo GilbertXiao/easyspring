@@ -68,6 +68,8 @@ public abstract class ClassUtils {
     public static boolean isAssignable(Class<?> lhsType, Class<?> rhsType) {
         Assert.notNull(lhsType, "Left-hand side type must not be null");
         Assert.notNull(rhsType, "Right-hand side type must not be null");
+
+        //父类.class.isAssignableFrom(子类.class)
         if (lhsType.isAssignableFrom(rhsType)) {
             return true;
         }

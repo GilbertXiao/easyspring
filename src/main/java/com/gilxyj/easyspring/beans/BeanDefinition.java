@@ -26,10 +26,15 @@ public interface BeanDefinition {
 
     boolean isPrototype();
 
+    ConstructorArgument getConstructorArgument();
+
+    boolean hasConstructorArgumentValues();
+
     String getScope();
 
     void setScope(String scope);
 
     List<PropertyValue> getPropertyValues();
+    String getId();
 
 }

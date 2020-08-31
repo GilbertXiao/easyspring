@@ -1,6 +1,7 @@
 package com.gilxyj.easyspring.beans.support;
 
 import com.gilxyj.easyspring.beans.BeanDefinition;
+import com.gilxyj.easyspring.beans.ConstructorArgument;
 import com.gilxyj.easyspring.beans.PropertyValue;
 
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     List<PropertyValue> propertyValues = new ArrayList<>();
 
+    private ConstructorArgument constructorArgument = new ConstructorArgument();
+
+
+
     public GenericBeanDefinition(String id, String beanClassName) {
         this.id = id;
         this.beanClassName = beanClassName;
@@ -47,6 +52,16 @@ public class GenericBeanDefinition implements BeanDefinition {
     @Override
     public boolean isPrototype() {
         return this.prototype;
+    }
+
+    @Override
+    public ConstructorArgument getConstructorArgument() {
+        return this.constructorArgument;
+    }
+
+    @Override
+    public boolean hasConstructorArgumentValues() {
+        return this.constructorArgument.getArgumentCount() > 0;
     }
 
     @Override
@@ -72,5 +87,9 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     public void setPrototype(boolean prototype) {
         this.prototype = prototype;
+    }
+
+    public String getId() {
+        return id;
     }
 }

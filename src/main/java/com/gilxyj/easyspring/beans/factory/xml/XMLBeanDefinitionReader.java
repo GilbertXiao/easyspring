@@ -1,6 +1,8 @@
 package com.gilxyj.easyspring.beans.factory.xml;
 
 import com.gilxyj.easyspring.beans.BeanDefinition;
+import com.gilxyj.easyspring.beans.ConstructorArgument;
+import com.gilxyj.easyspring.beans.ConstructorArgument.ValueHoder;
 import com.gilxyj.easyspring.beans.PropertyValue;
 import com.gilxyj.easyspring.beans.factory.BeanDefinitionStoreException;
 import com.gilxyj.easyspring.beans.factory.config.RuntimeBeanReference;
@@ -42,6 +44,9 @@ public class XMLBeanDefinitionReader {
     public static final String REF_ATTRIBUTE = "ref";
     public static final String VALUE_ATTRIBUTE = "value";
     public static final String NAME_ATTRIBUTE = "name";
+    public static final String CONSTRUCTOR_ARG_ATTRIBUTE = "constructor-arg";
+    public static final String TYPE_ATTRIBUTE = "type";
+
 
 
     private BeanDefinitionRegistry registry;
@@ -73,11 +78,34 @@ public class XMLBeanDefinitionReader {
             if (scope != null) {
                 bd.setScope(scope);
             }
+            parseConstructorArgElements(element,bd);
             parsePropertyElement(element,bd);
             this.registry.registerBeanDefinition(id, bd);
         }
 
 
+    }
+
+    private void parseConstructorArgElements(Element element, BeanDefinition beanDefinition) {
+        Iterator<Element> elementIterator = element.elementIterator(CONSTRUCTOR_ARG_ATTRIBUTE);
+        while (elementIterator.hasNext()) {
+            Element consturctorElement = elementIterator.next();
+            parseConstructorArgElement(beanDefinition, consturctorElement);
+        }
+    }
+
+    private void parseConstructorArgElement(BeanDefinition beanDefinition, Element consturctorElement) {
+        Object o = parsePropertyValue(consturctorElement, null);
+        ValueHoder valueHoder = new ValueHoder(o);
+        String type = consturctorElement.attributeValue(TYPE_ATTRIBUTE);
+        String name = consturctorElement.attributeValue(NAME_ATTRIBUTE);
+        if (StringUtils.hasLength(type)) {
+            valueHoder.setType(type);
+        }
+        if (StringUtils.hasLength(name)) {
+            valueHoder.setName(name);
+        }
+        beanDefinition.getConstructorArgument().addArgumentValue(valueHoder);
     }
 
     public void parsePropertyElement(Element ele, BeanDefinition beanDefinition) {
@@ -90,7 +118,7 @@ public class XMLBeanDefinitionReader {
                 return;
             }
 
-            Object value = parsePropertyValue(beanDefinition, propElem, propertyName);
+            Object value = parsePropertyValue(propElem, propertyName);
 
             PropertyValue propertyValue = new PropertyValue(propertyName, value);
             beanDefinition.getPropertyValues().add(propertyValue);
@@ -98,7 +126,7 @@ public class XMLBeanDefinitionReader {
         }
     }
 
-    private Object parsePropertyValue(BeanDefinition beanDefinition, Element propElem, String propertyName) {
+    private Object parsePropertyValue(Element propElem, String propertyName) {
         String elementName = (propertyName != null) ?
                 "<property> element for property '" + propertyName + "'" :
                 "<constructor-arg> element";

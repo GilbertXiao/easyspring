@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="petStoreV3"
+        class="com.gilxyj.easyspring.service.v3.PetStoreServiceV3">
+    <constructor-arg ref="accountDaoV3"/>
+    <constructor-arg ref="itemDaoV3"/>
+    <constructor-arg value="1"/>
+  </bean>
+
+
+  <bean id="accountDaoV3" class="com.gilxyj.easyspring.dao.v3.AccountDao">
+  </bean>
+
+  <bean id="itemDaoV3" class="com.gilxyj.easyspring.dao.v3.ItemDao"></bean>
+
+</beans>
+
