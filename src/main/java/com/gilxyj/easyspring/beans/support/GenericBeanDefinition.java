@@ -33,6 +33,8 @@ public class GenericBeanDefinition implements BeanDefinition {
     private ConstructorArgument constructorArgument = new ConstructorArgument();
 
 
+    public GenericBeanDefinition() {
+    }
 
     public GenericBeanDefinition(String id, String beanClassName) {
         this.id = id;
@@ -91,5 +93,13 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     public String getId() {
         return id;
+    }
+
+    public void setBeanClassName(String beanClassName) {
+        this.beanClassName = beanClassName;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

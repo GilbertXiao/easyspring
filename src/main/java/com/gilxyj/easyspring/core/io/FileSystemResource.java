@@ -32,6 +32,11 @@ public class FileSystemResource implements Resource {
         this.file = new File(path);
     }
 
+    public FileSystemResource(File matchingFile) {
+        this.file = matchingFile;
+        this.path = matchingFile.getPath();
+    }
+
     @Override
     public InputStream getInputStream() throws IOException {
         return new FileInputStream(this.file);

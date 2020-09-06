@@ -16,8 +16,8 @@
     <node x="796.3125" y="1004.0">com.gilxyj.easyspring.context.support.ClassPathXmlApplicationContext</node>
     <node x="1955.842628205128" y="584.0">com.gilxyj.easyspring.context.ApplicationContext</node>
     <node x="751.6801282051283" y="583.0">com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader</node>
-    <node x="998.5" y="772.0">com.gilxyj.easyspring.context.support.AbstractApplicationContext</node>
     <node x="364.0217948717949" y="570.0">com.gilxyj.easyspring.core.io.ClassPathResource</node>
+    <node x="998.5" y="772.0">com.gilxyj.easyspring.context.support.AbstractApplicationContext</node>
     <node x="737.5926282051282" y="228.0">com.gilxyj.easyspring.beans.support.GenericBeanDefinition</node>
   </nodes>
   <notes />
@@ -34,47 +34,11 @@
       <point x="2076.3426282051278" y="752.0" />
       <point x="0.0" y="31.0" />
     </edge>
-    <edge source="com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader" target="com.gilxyj.easyspring.beans.support.BeanDefinitionRegistry">
-      <point x="59.799999999999955" y="-32.0" />
-      <point x="960.9801282051283" y="488.0" />
-      <point x="1096.4259615384617" y="488.0" />
-      <point x="-135.66666666666663" y="45.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory" target="com.gilxyj.easyspring.beans.BeanDefinition">
-      <point x="0.0" y="-97.0" />
-      <point x="1465.7875000000001" y="498.0" />
-      <point x="1457.0926282051282" y="498.0" />
-      <point x="1457.0926282051282" y="188.0" />
-      <point x="1140.4551282051284" y="188.0" />
-      <point x="102.5" y="84.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader" target="com.gilxyj.easyspring.beans.BeanDefinition">
-      <point x="-59.799999999999955" y="-32.0" />
-      <point x="841.3801282051284" y="468.0" />
-      <point x="609.6100961538463" y="468.0" />
-      <point x="609.6100961538463" y="188.0" />
-      <point x="935.4551282051283" y="188.0" />
-      <point x="-102.5" y="84.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.context.support.ClassPathXmlApplicationContext" target="com.gilxyj.easyspring.core.io.Resource">
-      <point x="-135.375" y="-32.0" />
-      <point x="841.4375" y="944.0" />
-      <point x="296.2767628205129" y="944.0" />
-      <point x="296.2767628205129" y="498.0" />
-      <point x="402.93846153846164" y="498.0" />
-      <point x="-22.083333333333258" y="45.0" />
-    </edge>
     <edge source="com.gilxyj.easyspring.context.support.FileSystemXMLApplicationContext" target="com.gilxyj.easyspring.context.support.AbstractApplicationContext">
       <point x="46.375" y="-32.0" />
       <point x="368.25" y="954.0" />
       <point x="1038.625" y="954.0" />
       <point x="-120.375" y="71.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.context.support.FileSystemXMLApplicationContext" target="com.gilxyj.easyspring.core.io.Resource">
-      <point x="-46.375" y="-32.0" />
-      <point x="275.5" y="488.0" />
-      <point x="358.7717948717949" y="488.0" />
-      <point x="-66.25" y="45.0" />
     </edge>
     <edge source="com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory" target="com.gilxyj.easyspring.beans.factory.support.DefaultSingletonBeanRegistry">
       <point x="81.39999999999998" y="-97.0" />
@@ -88,14 +52,6 @@
       <point x="314.60512820512815" y="478.0" />
       <point x="-110.41666666666674" y="45.0" />
     </edge>
-    <edge source="com.gilxyj.easyspring.context.support.AbstractApplicationContext" target="com.gilxyj.easyspring.core.io.Resource">
-      <point x="-133.75" y="-71.0" />
-      <point x="1025.25" y="752.0" />
-      <point x="741.1801282051283" y="752.0" />
-      <point x="741.1801282051283" y="488.0" />
-      <point x="491.2717948717949" y="488.0" />
-      <point x="66.25" y="45.0" />
-    </edge>
     <edge source="com.gilxyj.easyspring.core.io.ClassPathResource" target="com.gilxyj.easyspring.core.io.Resource">
       <point x="0.0" y="-45.0" />
       <point x="496.5217948717949" y="498.0" />
@@ -106,33 +62,9 @@
       <point x="0.0" y="-31.0" />
       <point x="80.0" y="45.0" />
     </edge>
-    <edge source="com.gilxyj.easyspring.context.support.AbstractApplicationContext" target="com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory">
-      <point x="80.25" y="-71.0" />
-      <point x="1239.25" y="742.0" />
-      <point x="1567.5375000000001" y="742.0" />
-      <point x="101.75" y="97.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.context.support.AbstractApplicationContext" target="com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader">
-      <point x="-80.25" y="-71.0" />
-      <point x="1078.75" y="742.0" />
-      <point x="826.4301282051283" y="742.0" />
-      <point x="-74.75" y="32.0" />
-    </edge>
     <edge source="com.gilxyj.easyspring.beans.factory.support.DefaultSingletonBeanRegistry" target="com.gilxyj.easyspring.beans.factory.config.SingletonBeanRegistry">
       <point x="0.0" y="-45.0" />
       <point x="0.0" y="45.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader" target="com.gilxyj.easyspring.beans.support.GenericBeanDefinition">
-      <point x="0.0" y="-32.0" />
-      <point x="901.1801282051283" y="498.0" />
-      <point x="873.0926282051282" y="498.0" />
-      <point x="0.0" y="110.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader" target="com.gilxyj.easyspring.core.io.Resource">
-      <point x="-119.59999999999991" y="-32.0" />
-      <point x="781.5801282051284" y="478.0" />
-      <point x="535.4384615384614" y="478.0" />
-      <point x="110.41666666666652" y="45.0" />
     </edge>
     <edge source="com.gilxyj.easyspring.beans.factory.config.ConfigurableBeanFactory" target="com.gilxyj.easyspring.beans.factory.BeanFactory">
       <point x="0.0" y="-45.0" />
@@ -144,29 +76,11 @@
       <point x="1916.342628205128" y="498.0" />
       <point x="-80.0" y="45.0" />
     </edge>
-    <edge source="com.gilxyj.easyspring.context.support.ClassPathXmlApplicationContext" target="com.gilxyj.easyspring.core.io.ClassPathResource">
-      <point x="-45.125" y="-32.0" />
-      <point x="931.6875" y="934.0" />
-      <point x="496.5217948717949" y="934.0" />
-      <point x="0.0" y="45.0" />
-    </edge>
     <edge source="com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory" target="com.gilxyj.easyspring.beans.support.BeanDefinitionRegistry">
       <point x="-162.79999999999995" y="-97.0" />
       <point x="1302.9875000000002" y="498.0" />
       <point x="1367.759294871795" y="498.0" />
       <point x="135.66666666666674" y="45.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.context.support.FileSystemXMLApplicationContext" target="com.gilxyj.easyspring.core.io.FileSystemResource">
-      <point x="-139.125" y="-32.0" />
-      <point x="182.75" y="984.0" />
-      <point x="132.5" y="984.0" />
-      <point x="0.0" y="45.0" />
-    </edge>
-    <edge source="com.gilxyj.easyspring.beans.support.BeanDefinitionRegistry" target="com.gilxyj.easyspring.beans.BeanDefinition">
-      <point x="0.0" y="-45.0" />
-      <point x="1232.0926282051282" y="208.0" />
-      <point x="1058.4551282051284" y="208.0" />
-      <point x="20.5" y="84.0" />
     </edge>
     <edge source="com.gilxyj.easyspring.beans.support.GenericBeanDefinition" target="com.gilxyj.easyspring.beans.BeanDefinition">
       <point x="67.75" y="-110.0" />
@@ -175,7 +89,7 @@
       <point x="-20.5" y="84.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6422101449275363" x="1094.0" y="534.0" />
+  <settings layout="Hierarchic Group" zoom="0.32701849345963013" x="1098.5" y="534.0" />
   <SelectedNodes>
     <node>com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader</node>
   </SelectedNodes>

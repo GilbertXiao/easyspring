@@ -9,6 +9,7 @@ import com.gilxyj.easyspring.beans.factory.config.RuntimeBeanReference;
 import com.gilxyj.easyspring.beans.factory.config.TypedStringValue;
 import com.gilxyj.easyspring.beans.support.BeanDefinitionRegistry;
 import com.gilxyj.easyspring.beans.support.GenericBeanDefinition;
+import com.gilxyj.easyspring.context.annotation.ClassPathBeanDefinitionScanner;
 import com.gilxyj.easyspring.core.io.Resource;
 
 
@@ -47,11 +48,16 @@ public class XMLBeanDefinitionReader {
     public static final String CONSTRUCTOR_ARG_ATTRIBUTE = "constructor-arg";
     public static final String TYPE_ATTRIBUTE = "type";
 
+    public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
+
+    public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
+
+    private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
 
     private BeanDefinitionRegistry registry;
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(XMLBeanDefinitionReader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(XMLBeanDefinitionReader.class);
 
     public XMLBeanDefinitionReader(BeanDefinitionRegistry registry) {
         this.registry = registry;
@@ -71,19 +77,41 @@ public class XMLBeanDefinitionReader {
         Iterator<Element> iterator = rootElement.elementIterator();
         while (iterator.hasNext()) {
             Element element = iterator.next();
-            String id = element.attributeValue(ID_ATTRIBUTE);
-            String beanClassName = element.attributeValue(CLASS_ATTRIBUTE);
-            BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
-            String scope = element.attributeValue(SCOPE_ATTRIBUTE);
-            if (scope != null) {
-                bd.setScope(scope);
+            String namespaceURI = element.getNamespaceURI();
+            if (this.isDefaultNamespace(namespaceURI)) {
+                parseDefaultElement(element);
+            } else if (this.isContextNamespace(namespaceURI)) { //<context:component-scan></context:component-scan>
+                parseComponentElement(element);
             }
-            parseConstructorArgElements(element,bd);
-            parsePropertyElement(element,bd);
-            this.registry.registerBeanDefinition(id, bd);
         }
 
 
+    }
+
+    private void parseComponentElement(Element element) {
+        String basePackages = element.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+        ClassPathBeanDefinitionScanner classPathBeanDefinitionScanner = new ClassPathBeanDefinitionScanner(this.registry);
+        classPathBeanDefinitionScanner.doScan(basePackages);
+    }
+
+    public boolean isDefaultNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || BEANS_NAMESPACE_URI.equals(namespaceUri));
+    }
+    public boolean isContextNamespace(String namespaceUri){
+        return (!StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+    private void parseDefaultElement(Element element) {
+        String id = element.attributeValue(ID_ATTRIBUTE);
+        String beanClassName = element.attributeValue(CLASS_ATTRIBUTE);
+        BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
+        String scope = element.attributeValue(SCOPE_ATTRIBUTE);
+        if (scope != null) {
+            bd.setScope(scope);
+        }
+        parseConstructorArgElements(element, bd);
+        parsePropertyElement(element, bd);
+        this.registry.registerBeanDefinition(id, bd);
     }
 
     private void parseConstructorArgElements(Element element, BeanDefinition beanDefinition) {
@@ -145,6 +173,6 @@ public class XMLBeanDefinitionReader {
             TypedStringValue typeStringValue = new TypedStringValue(value);
             return typeStringValue;
         }
-        throw new RuntimeException(elementName +  " must specify a ref or value");
+        throw new RuntimeException(elementName + " must specify a ref or value");
     }
 }
