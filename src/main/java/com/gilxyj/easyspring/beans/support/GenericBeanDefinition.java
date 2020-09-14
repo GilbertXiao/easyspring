@@ -23,6 +23,7 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     private String id;
     private String beanClassName;
+    private Class<?> beanClass;
 
     private boolean singleton = true;
     private boolean prototype = false;
@@ -93,6 +94,27 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public Class<?> getBeanClass() {
+        return this.beanClass;
+    }
+
+    @Override
+    public boolean hasBeanClass() {
+        return this.beanClass != null;
+    }
+
+    @Override
+    public Class resolveBeanClass(ClassLoader beanClassLoader) throws ClassNotFoundException {
+        String beanClassName = getBeanClassName();
+        if (beanClassName == null) {
+            return null;
+        }
+        Class<?> resolvedClass = beanClassLoader.loadClass(beanClassName);
+        this.beanClass = resolvedClass;
+        return resolvedClass;
     }
 
     public void setBeanClassName(String beanClassName) {

@@ -2,8 +2,8 @@ package com.gilxyj.easyspring.service.v4;
 
 import com.gilxyj.easyspring.beans.factory.annotation.Autowired;
 
-import com.gilxyj.easyspring.dao.v4.AccountDao;
-import com.gilxyj.easyspring.dao.v4.ItemDao;
+import com.gilxyj.easyspring.dao.v4.AccountV4Dao;
+import com.gilxyj.easyspring.dao.v4.ItemV4Dao;
 import com.gilxyj.easyspring.stereotype.Component;
 
 
@@ -25,17 +25,17 @@ public class PetStoreServiceV4 {
 
 
     @Autowired
-    private AccountDao accountDao;
+    private AccountV4Dao accountV4Dao;
 
     @Autowired
-    private ItemDao itemDao;
+    private ItemV4Dao itemV4Dao;
 
 
-    public AccountDao getAccountDao() {
-        return accountDao;
+    public AccountV4Dao getAccountV4Dao() {
+        return accountV4Dao;
     }
 
-    public ItemDao getItemDao() {
-        return itemDao;
+    public ItemV4Dao getItemV4Dao() {
+        return itemV4Dao;
     }
 }

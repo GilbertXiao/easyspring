@@ -15,6 +15,6 @@ import com.gilxyj.easyspring.stereotype.Component;
  * @create: 2020-08-24 23:20
  **/
 @Component
-public class AccountDao {
+public class ItemV4Dao {
 
 }

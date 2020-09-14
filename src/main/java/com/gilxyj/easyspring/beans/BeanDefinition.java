@@ -37,4 +37,9 @@ public interface BeanDefinition {
     List<PropertyValue> getPropertyValues();
     String getId();
 
+    Class<?> getBeanClass();
+
+    boolean hasBeanClass();
+
+    Class<?> resolveBeanClass(ClassLoader beanClassLoader) throws ClassNotFoundException;
 }

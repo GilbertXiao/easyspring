@@ -1,5 +1,7 @@
 package com.gilxyj.easyspring.context.support;
 
+import com.gilxyj.easyspring.beans.factory.annotation.AutowiredAnnotationProcessor;
+import com.gilxyj.easyspring.beans.factory.config.AutowireCapableBeanFatory;
 import com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory;
 import com.gilxyj.easyspring.beans.factory.xml.XMLBeanDefinitionReader;
 import com.gilxyj.easyspring.context.ApplicationContext;
@@ -30,6 +32,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         Resource resource = this.getResource(configFile);
         reader.loadBeanDefinition(resource);
         defaultBeanFactory.setBeanCLassLoader(this.getBeanClassLoader());
+        registerBeanPostProcessors(defaultBeanFactory);
     }
 
     abstract Resource getResource(String configFile) ;
@@ -50,5 +53,12 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
             return this.beanClassLoader;
         }
         return ClassUtils.getDefaultClassLoader();
+    }
+
+    protected void registerBeanPostProcessors(AutowireCapableBeanFatory beanFatory){
+        AutowiredAnnotationProcessor autowiredAnnotationProcessor = new AutowiredAnnotationProcessor();
+        autowiredAnnotationProcessor.setBeanFactory(beanFatory);
+        beanFatory.addBeanPostProcessor(autowiredAnnotationProcessor);
+
     }
 }

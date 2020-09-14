@@ -3,7 +3,6 @@ package com.gilxyj.easyspring.test.v4;
 import com.gilxyj.easyspring.context.ApplicationContext;
 import com.gilxyj.easyspring.context.support.ClassPathXmlApplicationContext;
 import com.gilxyj.easyspring.service.v4.PetStoreServiceV4;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -26,8 +25,8 @@ public class ApplicationContextTest4 {
     @Test
     public void testGetBeanProperty(){
         ApplicationContext context = new ClassPathXmlApplicationContext("petstore-v4.xml");
-        PetStoreServiceV4 petStore = (PetStoreServiceV4) context.getBean("petStore");
-        assertNotNull(petStore.getAccountDao());
-        assertNotNull(petStore.getItemDao());
+        PetStoreServiceV4 petStore = (PetStoreServiceV4) context.getBean("petStoreServiceV4");
+        assertNotNull(petStore.getAccountV4Dao());
+        assertNotNull(petStore.getItemV4Dao());
     }
 }

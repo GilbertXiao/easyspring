@@ -7,7 +7,7 @@ import com.gilxyj.easyspring.beans.SimpleTypeConverter;
 import com.gilxyj.easyspring.beans.factory.BeanCreationException;
 import com.gilxyj.easyspring.beans.factory.BeanDefinitionStoreException;
 import com.gilxyj.easyspring.beans.factory.BeanFactory;
-import com.gilxyj.easyspring.beans.factory.config.ConfigurableBeanFactory;
+import com.gilxyj.easyspring.beans.factory.config.*;
 import com.gilxyj.easyspring.beans.support.BeanDefinitionRegistry;
 import com.gilxyj.easyspring.beans.support.GenericBeanDefinition;
 import com.gilxyj.easyspring.util.ClassUtils;
@@ -24,6 +24,7 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +43,14 @@ import java.util.concurrent.ConcurrentMap;
  * @Gitee https://gitee.com/gilbertxiao
  * @create: 2020-08-22 23:38
  **/
-public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements AutowireCapableBeanFatory, BeanDefinitionRegistry {
 
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap();
 
     private ClassLoader beanClassLoader;
+
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     @Override
     public BeanDefinition getBeanDefinition(String id) {
@@ -101,6 +104,13 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
     }
 
     private void populateBean(BeanDefinition beanDefinition, Object bean) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
+
+        for (BeanPostProcessor beanPostProcessor : this.getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(bean,beanDefinition.getId());
+            }
+        }
+
         List<PropertyValue> propertyValues = beanDefinition.getPropertyValues();
         BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
         SimpleTypeConverter simpleTypeConverter = new SimpleTypeConverter();
@@ -134,5 +144,43 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
             return this.beanClassLoader;
         }
         return ClassUtils.getDefaultClassLoader();
+    }
+
+    @Override
+    public Object resolveDependency(DependencyDescriptor descriptor) {
+        Class typeToMatch = descriptor.getDependencyType();
+        for (BeanDefinition bd : this.beanDefinitionMap.values()) {
+            //make sure BeanDefinition has Class
+            resolveBeanClass(bd);
+            Class<?> beanClass = bd.getBeanClass();
+            if (typeToMatch.isAssignableFrom(beanClass)) {
+                return this.getBean(bd.getId());
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor postProcessor) {
+        this.beanPostProcessors.add(postProcessor);
+    }
+
+    @Override
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
+
+    public void resolveBeanClass(BeanDefinition bd) {
+        if (bd.hasBeanClass()) {
+            return;
+        } else {
+            try {
+                bd.resolveBeanClass(this.getBeanClassLoader());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("can't load class:"+bd.getBeanClassName());
+            }
+        }
+
     }
 }

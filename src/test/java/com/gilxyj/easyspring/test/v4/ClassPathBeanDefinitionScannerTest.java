@@ -52,7 +52,7 @@ public class ClassPathBeanDefinitionScannerTest {
         }
 
         {
-            BeanDefinition bd = defaultBeanFactory.getBeanDefinition("accountDao");
+            BeanDefinition bd = defaultBeanFactory.getBeanDefinition("accountV4Dao");
             assertTrue(bd instanceof ScannedGenericBeanDefinition);
             ScannedGenericBeanDefinition sbd = (ScannedGenericBeanDefinition) bd;
             AnnotationMetadata amd = sbd.getMetadata();
@@ -61,7 +61,7 @@ public class ClassPathBeanDefinitionScannerTest {
         }
 
         {
-            BeanDefinition bd = defaultBeanFactory.getBeanDefinition("itemDao");
+            BeanDefinition bd = defaultBeanFactory.getBeanDefinition("itemV4Dao");
             assertTrue(bd instanceof ScannedGenericBeanDefinition);
             ScannedGenericBeanDefinition sbd = (ScannedGenericBeanDefinition) bd;
             AnnotationMetadata amd = sbd.getMetadata();
