@@ -2,6 +2,7 @@ package com.gilxyj.easyspring.beans.factory.support;
 
 import com.gilxyj.easyspring.beans.BeanDefinition;
 
+import com.gilxyj.easyspring.beans.NoSuchBeanDefinitionException;
 import com.gilxyj.easyspring.beans.PropertyValue;
 import com.gilxyj.easyspring.beans.SimpleTypeConverter;
 import com.gilxyj.easyspring.beans.factory.BeanCreationException;
@@ -183,4 +184,15 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
         }
 
     }
+
+    @Override
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        BeanDefinition bd = this.getBeanDefinition(name);
+        if (bd == null) {
+            throw new NoSuchBeanDefinitionException(name);
+        }
+        resolveBeanClass(bd);
+        return bd.getBeanClass();
+    }
+
 }

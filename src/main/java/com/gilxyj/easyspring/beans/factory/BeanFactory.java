@@ -1,6 +1,7 @@
 package com.gilxyj.easyspring.beans.factory;
 
 import com.gilxyj.easyspring.beans.BeanDefinition;
+import com.gilxyj.easyspring.beans.NoSuchBeanDefinitionException;
 
 /**
  * @program: easyspring
@@ -16,4 +17,6 @@ import com.gilxyj.easyspring.beans.BeanDefinition;
  **/
 public interface BeanFactory {
     Object getBean(String beanID);
+
+    Class<?> getType(String name) throws NoSuchBeanDefinitionException;
 }

@@ -1,5 +1,6 @@
 package com.gilxyj.easyspring.context.support;
 
+import com.gilxyj.easyspring.beans.NoSuchBeanDefinitionException;
 import com.gilxyj.easyspring.beans.factory.annotation.AutowiredAnnotationProcessor;
 import com.gilxyj.easyspring.beans.factory.config.AutowireCapableBeanFatory;
 import com.gilxyj.easyspring.beans.factory.support.DefaultBeanFactory;
@@ -60,5 +61,10 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         autowiredAnnotationProcessor.setBeanFactory(beanFatory);
         beanFatory.addBeanPostProcessor(autowiredAnnotationProcessor);
 
+    }
+
+    @Override
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        return this.defaultBeanFactory.getType(name);
     }
 }
